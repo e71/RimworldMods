@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- The chased-joiner quest is a quest root (Legacy_ThreatReward_Raid_Joiner) the storyteller picks with the
+       other threat-reward quests, so it needs no incident of its own. -->
+
+  <IncidentDef>
+    <defName>Legacy_PodCrash</defName>
+    <label>legacy pod crash</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <questScriptDef>Legacy_PodCrash</questScriptDef>
+    <baseChance>0.8</baseChance>
+    <minRefireDays>8</minRefireDays>
+    <populationEffect>IncreaseMedium</populationEffect>
+    <requireColonistsPresent>True</requireColonistsPresent>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>Legacy_WandererReturns</defName>
+    <label>legacy returns</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>IncidentWorker_GiveQuest</workerClass>
+    <questScriptDef>Legacy_WandererReturns</questScriptDef>
+    <baseChance>0.4</baseChance>
+    <minRefireDays>12</minRefireDays>
+    <populationEffect>IncreaseEasy</populationEffect>
+  </IncidentDef>
+
+</Defs>

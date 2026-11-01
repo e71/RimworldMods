@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Copies of the vanilla prisoner camp and downed-refugee sites whose workers hand over a Legacy character.
+       The vanilla gen steps spawn whoever the site part is holding, so they're reused as they are. -->
+
+  <SitePartDef>
+    <defName>Legacy_PrisonerCamp</defName>
+    <label>prisoner camp</label>
+    <description>An old companion being held by enemies. Rescue them and they will join you.</description>
+    <workerClass>VandalHeartsLegacy.SitePartWorker_LegacyPrisoner</workerClass>
+    <siteTexture>World/WorldObjects/Sites/GenericSite</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Prisoner</expandingIconTexture>
+    <forceExitAndRemoveMapCountdownDurationDays>6</forceExitAndRemoveMapCountdownDurationDays>
+    <requiresFaction>true</requiresFaction>
+    <increasesPopulation>true</increasesPopulation>
+    <handlesWorldObjectTimeoutInspectString>true</handlesWorldObjectTimeoutInspectString>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
+    <tags>
+      <li>Legacy_PrisonerCamp</li>
+    </tags>
+  </SitePartDef>
+
+  <GenStepDef>
+    <defName>Legacy_PrisonerCamp</defName>
+    <linkWithSite>Legacy_PrisonerCamp</linkWithSite>
+    <order>1600</order>
+    <genStep Class="GenStep_PrisonerWillingToJoin">
+      <count>1</count>
+      <nearMapCenter>true</nearMapCenter>
+    </genStep>
+  </GenStepDef>
+
+  <SitePartDef>
+    <defName>Legacy_DownedCompanion</defName>
+    <label>wounded companion</label>
+    <description>An old companion, badly hurt and unable to move, calling for help.</description>
+    <workerClass>VandalHeartsLegacy.SitePartWorker_LegacyDowned</workerClass>
+    <siteTexture>World/WorldObjects/Sites/GenericSite</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/DownedRefugee</expandingIconTexture>
+    <forceExitAndRemoveMapCountdownDurationDays>16</forceExitAndRemoveMapCountdownDurationDays>
+    <increasesPopulation>true</increasesPopulation>
+    <handlesWorldObjectTimeoutInspectString>true</handlesWorldObjectTimeoutInspectString>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
+    <tags>
+      <li>Legacy_DownedCompanion</li>
+    </tags>
+  </SitePartDef>
+
+  <GenStepDef>
+    <defName>Legacy_DownedCompanion</defName>
+    <linkWithSite>Legacy_DownedCompanion</linkWithSite>
+    <order>1600</order>
+    <genStep Class="GenStep_DownedRefugee">
+      <count>1</count>
+      <nearMapCenter>true</nearMapCenter>
+    </genStep>
+  </GenStepDef>
+
+</Defs>

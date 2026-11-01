@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Vandal Hearts Legacy Arrivals</name>
+  <author>ellerain</author>
+  <packageId>ellerain.vandalheartslegacy</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>Storyteller events that bring your Legacy characters (the chase roster from Vandal Hearts Chase Characters) to you:
+
+- Legacy pod crash: a Legacy character crash-lands nearby, downed and factionless. Rescue them and hope they join, or capture them.
+- Legacy returns: a Legacy character walks up and asks to join.
+- Legacy on the run: a threat-reward quest where a Legacy character is chased by raiders and joins if you accept and fight them off.
+- Legacy prisoner rescue: a Legacy character is held at an enemy camp; break them out and they join.
+- Legacy distress call: a wounded Legacy character calls for help from a site on the world map; reach them and they join.
+- Legacy in hiding: shelter a hunted Legacy character for a few days through raids, and they stay for good.
+- Legacy fights beside you: a Legacy character arrives to help against a raid, and joins once it's beaten.
+
+Events only fire while at least one Legacy character is out in the world.</description>
+  <modDependencies>
+    <li>
+      <packageId>ellerain.vandalheartschase</packageId>
+      <displayName>Vandal Hearts Chase Characters</displayName>
+      <downloadUrl>https://github.com/e71/RimworldMods</downloadUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>ellerain.vandalheartschase</li>
+  </loadAfter>
+</ModMetaData>

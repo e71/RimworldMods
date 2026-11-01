@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- ===================== Prisoner rescue: copy of OpportunitySite_PrisonerWillingToJoin ===================== -->
+
+  <QuestScriptDef>
+    <defName>Legacy_PrisonerRescue</defName>
+    <rootSelectionWeight>0.8</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <rootIncreasesPopulation>true</rootIncreasesPopulation>
+    <autoAccept>true</autoAccept>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Breaking [prisoner_nameDef] Out</li>
+        <li>questName->[prisoner_nameDef] in Chains</li>
+        <li>questName->No Companion Left Behind</li>
+        <li>questName->[prisoner_nameDef]'s Last Call</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->The radio crackles with a voice you know: [prisoner_nameDef]! [prisoner_pronoun] was taken by [siteFaction_name] and is being held at a camp near [map_definite][underArmedGuard].
+\nGet [prisoner_objective] out, and [prisoner_pronoun] will join your colony. [prisoner_pronoun] says that [allSitePartsDescriptionsExceptFirst][prisonerFullRelationInfo]
+\nIf nobody comes, [siteFaction_name] will move [prisoner_objective] somewhere you can't follow, at least for a while.</li>
+        <li>underArmedGuard(allowViolentQuests==true,priority=1)-> under armed guard</li>
+        <li>underArmedGuard-></li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="VandalHeartsLegacy.QuestNode_GetLegacyCharacter">
+          <storeAs>legacyPawn</storeAs>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_AdjustPointsForDistantFight</def>
+        </li>
+        <li Class="QuestNode_GetMap" />
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+        </li>
+        <li Class="QuestNode_ViolentQuestsAllowed">
+          <node Class="QuestNode_Set">
+            <name>siteThreatChance</name>
+            <value>1</value>
+          </node>
+          <elseNode Class="QuestNode_Set">
+            <name>siteThreatChance</name>
+            <value>0</value>
+          </elseNode>
+        </li>
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
+            <li>
+              <tag>Legacy_PrisonerCamp</tag>
+            </li>
+            <li>
+              <tag>PrisonerRescueQuestThreat</tag>
+              <chance>$siteThreatChance</chance>
+            </li>
+          </sitePartsTags>
+        </li>
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+          <parms>
+            <hiddenSitePartsPossible>true</hiddenSitePartsPossible>
+          </parms>
+        </li>
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+          <defsToExcludeFromHyperlinks>Human</defsToExcludeFromHyperlinks>
+        </li>
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <node Class="QuestNode_End">
+            <outcome>Fail</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+        <li Class="QuestNode_AddPawnReward">
+          <pawn>$prisoner</pawn>
+          <inSignalChoiceUsed>site.MapGenerated</inSignalChoiceUsed>
+          <rewardDetailsHidden>true</rewardDetailsHidden>
+        </li>
+        <li Class="QuestNode_NoWorldObject">
+          <worldObject>$site</worldObject>
+          <node Class="QuestNode_End" />
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <!-- ===================== Distress call: copy of OpportunitySite_DownedRefugee ===================== -->
+
+  <QuestScriptDef>
+    <defName>Legacy_DistressCall</defName>
+    <rootSelectionWeight>0.8</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <rootIncreasesPopulation>true</rootIncreasesPopulation>
+    <autoAccept>true</autoAccept>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->[refugee_nameDef]'s Distress Call</li>
+        <li>questName->[refugee_nameDef] Down</li>
+        <li>questName->Reaching [refugee_nameDef]</li>
+        <li>questName->A Familiar Signal</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->A weak distress signal comes in on an old frequency, one only your people would remember. It's [refugee_nameDef]. [refugee_pronoun] is badly wounded and can't walk.
+\nReach [refugee_objective] and bring [refugee_objective] home, and [refugee_pronoun] will join you. [refugee_pronoun] says that [allSitePartsDescriptionsExceptFirst][refugeeRelationInfo]</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="VandalHeartsLegacy.QuestNode_GetLegacyCharacter">
+          <storeAs>legacyPawn</storeAs>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+          <parms>
+            <pointsFactorTwoStar>1.5</pointsFactorTwoStar>
+            <pointsFactorThreeStar>2</pointsFactorThreeStar>
+          </parms>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GetDefaultRewardValueFromPoints</def>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_AdjustPointsForDistantFight</def>
+        </li>
+        <li Class="QuestNode_GetMap" />
+        <li Class="QuestNode_Set">
+          <name>askerIsNull</name>
+          <value>true</value>
+        </li>
+        <li Class="QuestNode_GetSiteTile">
+          <storeAs>siteTile</storeAs>
+          <preferCloserTiles>true</preferCloserTiles>
+        </li>
+        <li Class="QuestNode_ViolentQuestsAllowed">
+          <node Class="QuestNode_Set">
+            <name>siteThreatChance</name>
+            <value>0.7</value>
+          </node>
+          <elseNode Class="QuestNode_Set">
+            <name>siteThreatChance</name>
+            <value>0</value>
+          </elseNode>
+        </li>
+        <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
+          <storeAs>sitePartDefs</storeAs>
+          <storeFactionAs>siteFaction</storeFactionAs>
+          <sitePartsTags>
+            <li>
+              <tag>Legacy_DownedCompanion</tag>
+            </li>
+            <li>
+              <tag>DownedRefugeeQuestThreat</tag>
+              <chance>$siteThreatChance</chance>
+            </li>
+          </sitePartsTags>
+        </li>
+        <li Class="QuestNode_GetDefaultSitePartsParams">
+          <tile>$siteTile</tile>
+          <faction>$siteFaction</faction>
+          <sitePartDefs>$sitePartDefs</sitePartDefs>
+          <storeSitePartsParamsAs>sitePartsParams</storeSitePartsParamsAs>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_GenerateSite</def>
+          <parms>
+            <hiddenSitePartsPossible>true</hiddenSitePartsPossible>
+          </parms>
+        </li>
+        <li Class="QuestNode_SpawnWorldObjects">
+          <worldObjects>$site</worldObjects>
+        </li>
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$site</worldObject>
+          <isQuestTimeout>true</isQuestTimeout>
+          <delayTicks>$(randInt(7,15)*60000)</delayTicks>
+          <inSignalDisable>site.MapGenerated</inSignalDisable>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <label>Quest expired: [resolvedQuestName]</label>
+                <text>[refugee_nameDef]'s signal has gone quiet. Someone else must have found [refugee_objective] first. The quest [resolvedQuestName] has expired.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Fail</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+        <li Class="QuestNode_AddPawnReward">
+          <pawn>$refugee</pawn>
+          <inSignalChoiceUsed>site.MapGenerated</inSignalChoiceUsed>
+          <rewardDetailsHidden>true</rewardDetailsHidden>
+        </li>
+        <li Class="QuestNode_NoWorldObject">
+          <worldObject>$site</worldObject>
+          <node Class="QuestNode_End" />
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <!-- ===================== In hiding: shelter a hunted companion, who stays for good afterwards ===================== -->
+
+  <QuestScriptDef>
+    <defName>Legacy_InHiding</defName>
+    <rootSelectionWeight>0.8</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <expireDaysRange>2~4</expireDaysRange>
+    <rootIncreasesPopulation>true</rootIncreasesPopulation>
+    <defaultCharity>true</defaultCharity>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->[joiner_nameDef] in Hiding</li>
+        <li>questName->Sheltering [joiner_nameDef]</li>
+        <li>questName->A Safe Place for [joiner_nameDef]</li>
+        <li>questName->[joiner_nameDef] Lies Low</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[joiner_nameDef] sends word through an old contact: [joiner_pronoun] [wrongAct], and now [enemyFaction_name] wants [joiner_objective] dead.
+\n[joiner_pronoun] asks to lie low at [map_definite] for [hideTicks_duration]. While [joiner_pronoun] is with you, [enemyFaction_pawnsPlural] will come looking for [joiner_objective] (*Threat)[raidCount] [raidOrRaids](/Threat). [joiner_pronoun] will help out like one of your own, and if [joiner_pronoun] is still alive when the time is up, [joiner_pronoun] will stay for good.[joiner_relationInfo]</li>
+        <li>wrongAct->freed a cell full of [enemyFaction_name]'s prisoners</li>
+        <li>wrongAct->burned down a storehouse belonging to [enemyFaction_name]</li>
+        <li>wrongAct->publicly humiliated [enemyFaction_leader_nameDef], [enemyFaction_leaderTitle] of [enemyFaction_name]</li>
+        <li>wrongAct->stole back something [enemyFaction_name] had taken from an old friend</li>
+        <li>wrongAct->refused to fight for [enemyFaction_name] and walked out with their payroll</li>
+        <li>raidOrRaids(raidCount==1)->time</li>
+        <li>raidOrRaids(raidCount>=2)->times</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="VandalHeartsLegacy.QuestNode_GetLegacyCharacter">
+          <storeAs>joiner</storeAs>
+          <friendlyOnly>true</friendlyOnly>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+        </li>
+        <li Class="QuestNode_GetMap" />
+        <li Class="QuestNode_GetFaction">
+          <storeAs>enemyFaction</storeAs>
+          <allowEnemy>true</allowEnemy>
+          <mustBePermanentEnemy>true</mustBePermanentEnemy>
+        </li>
+        <li Class="QuestNode_Set">
+          <name>hideTicks</name>
+          <value>$(roundToTicksRough(randInt(4, 10)*60000))</value>
+        </li>
+        <li Class="QuestNode_Set">
+          <name>raidCount</name>
+          <value>$(randInt(1, 2))</value>
+        </li>
+
+        <!-- Arrives right away and works as a lodger, still counted as a member of their old faction -->
+        <li Class="QuestNode_PawnsArrive">
+          <pawns>$joiner</pawns>
+          <joinPlayer>true</joinPlayer>
+          <customLetterLabel>Legacy: [joiner_nameDef] in hiding</customLetterLabel>
+          <customLetterText>[joiner_nameDef] has arrived to lie low with you. [enemyFaction_name] won't be far behind.</customLetterText>
+        </li>
+        <li Class="QuestNode_ExtraFaction">
+          <factionOf>$joiner</factionOf>
+          <pawns>$joiner</pawns>
+          <factionType>HomeFaction</factionType>
+        </li>
+
+        <li Class="QuestNode_CreateIncidents">
+          <incidentDef>RaidEnemy</incidentDef>
+          <randomIncidents>$raidCount</randomIncidents>
+          <startOffsetTicks>$(0.5 * 60000)</startOffsetTicks>
+          <duration>$hideTicks</duration>
+          <points>$points</points>
+          <faction>$enemyFaction</faction>
+        </li>
+
+        <!-- Time's up: they stay -->
+        <li Class="QuestNode_Delay">
+          <delayTicks>$hideTicks</delayTicks>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_Letter">
+                <letterDef>PositiveEvent</letterDef>
+                <label>Legacy: [joiner_nameDef] stays</label>
+                <text>[enemyFaction_name] has given up the hunt. [joiner_nameDef] has decided not to move on: from now on, [joiner_possessive] home is here.</text>
+              </li>
+              <li Class="QuestNode_End">
+                <outcome>Success</outcome>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>joiner.Killed</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Fail</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <!-- ===================== Fights beside you: arrives as an ally before a raid, joins once it's beaten ===================== -->
+
+  <QuestScriptDef>
+    <defName>Legacy_FightsBesideYou</defName>
+    <rootSelectionWeight>0.8</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <expireDaysRange>0.3</expireDaysRange>
+    <rootIncreasesPopulation>true</rootIncreasesPopulation>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->[joiner_nameDef] Stands With You</li>
+        <li>questName->Shoulder to Shoulder</li>
+        <li>questName->[joiner_nameDef] Answers the Call</li>
+        <li>questName->One More Sword</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[joiner_nameDef] has heard that [enemyFaction_name] is planning to hit [map_definite], and [joiner_pronoun] isn't about to let them do it alone.
+\nIf you accept, the attack will come in [raidDelayTicks_duration]: (*Threat)a raid by [enemyFaction_pawnsPlural](/Threat), made up of:
+\n[raid/raidPawnKinds]
+\n[joiner_nameDef] will arrive shortly before it and fight at your side. If [joiner_pronoun] survives the battle, [joiner_pronoun] will join your colony.[joiner_relationInfo]
+\nIf you refuse, [enemyFaction_name] will strike some other time, without warning.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="VandalHeartsLegacy.QuestNode_GetLegacyCharacter">
+          <storeAs>joiner</storeAs>
+          <friendlyOnly>true</friendlyOnly>
+        </li>
+        <li Class="QuestNode_SubScript">
+          <def>Util_RandomizePointsChallengeRating</def>
+        </li>
+        <li Class="QuestNode_GetMap" />
+        <li Class="QuestNode_GetWalkInSpot" />
+        <li Class="QuestNode_GetFaction">
+          <storeAs>enemyFaction</storeAs>
+          <allowEnemy>true</allowEnemy>
+          <mustBePermanentEnemy>true</mustBePermanentEnemy>
+        </li>
+        <li Class="QuestNode_Set">
+          <name>raidDelayTicks</name>
+          <value>$(roundToTicksRough(randInt(15000, 30000)))</value>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>$($raidDelayTicks - 2500)</delayTicks>
+          <node Class="QuestNode_SendSignals">
+            <outSignals>AllyArrives</outSignals>
+          </node>
+        </li>
+
+        <li Class="QuestNode_Delay">
+          <delayTicks>$raidDelayTicks</delayTicks>
+          <node Class="QuestNode_Sequence">
+            <nodes>
+              <li Class="QuestNode_SubScript">
+                <def>Util_Raid</def>
+                <prefix>raid</prefix>
+                <parms>
+                  <inSignal>$inSignal</inSignal>
+                  <map>$map</map>
+                  <points>$points</points>
+                  <enemyFaction>$enemyFaction</enemyFaction>
+                  <walkInSpot>$walkInSpot</walkInSpot>
+                  <customLetterLabel>{BASELABEL}: [../enemyFaction_name] attacks</customLetterLabel>
+                  <customLetterText>{BASETEXT}
+                  \n[../joiner_nameDef] is here to fight beside you.</customLetterText>
+                </parms>
+              </li>
+              <li Class="QuestNode_SendSignals">
+                <outSignals>RaidArrived</outSignals>
+              </li>
+            </nodes>
+          </node>
+        </li>
+
+        <li Class="VandalHeartsLegacy.QuestNode_LegacyAlly">
+          <pawn>$joiner</pawn>
+          <map>$map</map>
+          <enemyFaction>$enemyFaction</enemyFaction>
+          <walkInSpot>$walkInSpot</walkInSpot>
+          <inSignalArrive>AllyArrives</inSignalArrive>
+          <inSignalRaidArrived>RaidArrived</inSignalRaidArrived>
+          <outSignalJoined>LegacyJoined</outSignalJoined>
+          <outSignalLost>LegacyLost</outSignalLost>
+        </li>
+
+        <li Class="QuestNode_Signal">
+          <inSignal>LegacyJoined</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Success</outcome>
+          </node>
+        </li>
+        <li Class="QuestNode_Signal">
+          <inSignal>LegacyLost</inSignal>
+          <node Class="QuestNode_End">
+            <outcome>Fail</outcome>
+            <sendStandardLetter>true</sendStandardLetter>
+          </node>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+</Defs>

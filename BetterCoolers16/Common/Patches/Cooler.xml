@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Turns the vanilla Cooler into one that sits inside a wall: the wall stays the edifice, the Cooler is drawn over it. -->
+<Patch>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Cooler"]/graphicData/texPath</xpath>
+		<value><texPath>Things/Building/Misc/TempControl/CoolerB</texPath></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Cooler"]/altitudeLayer</xpath>
+		<value><altitudeLayer>PawnUnused</altitudeLayer></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Cooler"]/passability</xpath>
+		<value><passability>Standable</passability></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Cooler"]/fillPercent</xpath>
+		<value><fillPercent>0.99</fillPercent></value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Cooler"]/terrainAffordanceNeeded</xpath>
+		<value><terrainAffordanceNeeded>Light</terrainAffordanceNeeded></value>
+	</Operation>
+	<!-- The wall underneath already blocks wind, weather and air, and zones can't cover it anyway. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="Cooler"]/*[self::blockWind or self::blockWeather or self::canOverlapZones]</xpath>
+	</Operation>
+	<!-- isAirtight on a building that doesn't fill its cell is a config error in 1.6. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="Cooler"]/building/isAirtight</xpath>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Cooler"]/building</xpath>
+		<value><isEdifice>false</isEdifice></value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Cooler"]/placeWorkers</xpath>
+		<value><li>BetterCV.PlaceWorker_OnWall</li></value>
+	</Operation>
+</Patch>

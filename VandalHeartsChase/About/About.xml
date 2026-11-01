@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Vandal Hearts Chase Characters</name>
+  <author>ellerain</author>
+  <packageId>ellerain.vandalheartschase</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>Companion for a Prepare Carefully preset. World pawns made in Prepare Carefully normally never show up again. This mod moves them into friendly factions when the game starts, and gives each of them a chance to arrive with visitor groups (including Hospitality guests) and trade caravans from their faction, so you can try to recruit them.
+
+Chances are adjustable in Mod Settings.</description>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>Orion.Hospitality</li>
+    <li>edb.preparecarefully</li>
+  </loadAfter>
+</ModMetaData>
