@@ -48,14 +48,17 @@ namespace HousekeeperCat
             {
                 workSettings = new Pawn_WorkSettings(this);
                 workSettings.EnableAndInitialize();
-
-                // both genders can do both cleaning and hauling, but males prefer hauling and females prefer cleaning so they divide jobs and don't neglect one or another too much
-                if (gender == Gender.Female)
-                    workSettings.SetPriority(WorkTypeDefOf.Hauling, 4);
             }
 
             GetDisabledWorkTypes(); // init stuff
             workSettings.Notify_DisabledWorkTypesChanged();
+
+            // cleaning first, hauling second; re-applied on every spawn so cats from older saves get it too
+            // (animals don't use the work tab, and the priority-off setting only flattens humanlikes)
+            workSettings.SetPriority(WorkTypeDefOf.Firefighter, 1);
+            workSettings.SetPriority(WorkTypeDefOf.Cleaning, 2);
+            workSettings.SetPriority(WorkTypeDefOf.Hauling, 3);
+            workSettings.SetPriority(WorkTypeDefOf.PlantCutting, 4);
         }
 
         /**

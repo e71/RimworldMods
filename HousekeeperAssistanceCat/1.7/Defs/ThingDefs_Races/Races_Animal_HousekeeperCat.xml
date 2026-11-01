@@ -171,25 +171,29 @@
 				     is not in mechEnabledWorkTypes. Lets the cat do specific job subtypes
 				     (feeding, rescuing, prisoner care) without the rest of the work type
 				     (tending, surgery, recruiting, executing...). -->
+				<!-- Turned off: the cats stick to cleaning and hauling. To bring the care jobs back,
+				     move these entries back into extraEnabledWorkGivers.
 				<extraEnabledWorkGivers>
-					<!-- Doctor: feed patients + rescue downed allies -->
+					Doctor: feed patients + rescue downed allies
 					<li>DoctorFeedHumanlikes</li>
 					<li>DoctorFeedAnimals</li>
 					<li>DoctorRescue</li>
-					<!-- Warden: prisoner care only -->
+					Warden: prisoner care only
 					<li>TakePrisonerToBed</li>
 					<li>FeedPrisoner</li>
 					<li>DeliverFoodToPrisoner</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">DeliverHemogenToPrisoner</li>
-					<!-- Handling: rope roaming animals + feed animal patients -->
+					Handling: rope roaming animals + feed animal patients
 					<li>TakeRoamingAnimalsToPen</li>
 					<li>HandlingFeedPatientAnimals</li>
-					<!-- Childcare (Biotech): tend babies, but no breastfeeding or teaching -->
+					Childcare (Biotech): tend babies, but no breastfeeding or teaching
 					<li MayRequire="Ludeon.RimWorld.Biotech">BringBabyToSafety</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">PlayWithBaby</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">BottleFeedBaby</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">CarryToBreastfeed</li>
 				</extraEnabledWorkGivers>
+				-->
+				<extraEnabledWorkGivers />
 			</li>
 		</modExtensions>
 		<tradeTags>

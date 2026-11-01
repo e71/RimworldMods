@@ -22,10 +22,27 @@
       <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
     </li>
   </modDependencies>
+  <modDependenciesByVersion>
+    <v1.7>
+      <li>
+        <packageId>brrainz.harmony</packageId>
+        <displayName>Harmony</displayName>
+        <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+        <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+      </li>
+      <li>
+        <packageId>e71.ImportantClean</packageId>
+        <displayName>Important Clean (e71)</displayName>
+        <downloadUrl>https://github.com/e71/RimworldMods</downloadUrl>
+      </li>
+    </v1.7>
+  </modDependenciesByVersion>
   <description>
 Continuation for HousekeeperAssistanceCat mod by Edge Crescent. While using the same assets, background logic for cleaning tasks is fully reworked.
 
 This mod adds a new kind of animal - Housekeeper Cat. When Obedience is trained, they are able to do cleaning tasks. They are also eligible for hauling training. As a bonus, they can produce small amounts of quality wool.
+
+On 1.7 the cats clean first and haul second, and they clean the rooms where cleanliness matters (kitchens, hospitals, bedrooms...) before the rest. That needs Important Clean (e71).
 
 Supports Pawnmorpher partial morphs!
 	</description>
@@ -36,5 +53,6 @@ Supports Pawnmorpher partial morphs!
     <li>tachyonite.pawnmorpherpublic</li>
     <li>SirMashedPotato.Ashlands</li>
     <li>kentington.saveourship2</li>
+    <li>e71.ImportantClean</li>
   </loadAfter>
 </ModMetaData>
