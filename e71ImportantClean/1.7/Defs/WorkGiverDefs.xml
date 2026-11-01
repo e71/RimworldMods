@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Vanilla: ClearSnowOrSand is 10, CleanFilth is 5. Higher runs first. -->
+	<WorkGiverDef>
+		<defName>e71_CleanImportantRooms</defName>
+		<label>clean important rooms</label>
+		<giverClass>e71ImportantClean.WorkGiver_CleanImportantRooms</giverClass>
+		<workType>Cleaning</workType>
+		<verb>clean</verb>
+		<gerund>cleaning</gerund>
+		<priorityInType>15</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+</Defs>

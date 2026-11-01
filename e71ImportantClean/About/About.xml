@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Important Clean (e71)</name>
+	<author>e71</author>
+	<packageId>e71.ImportantClean</packageId>
+	<url>https://github.com/e71/RimworldMods</url>
+	<supportedVersions>
+		<li>1.7</li>
+	</supportedVersions>
+	<description>Cleaners clean the rooms where cleanliness matters before the rest of the home area.
+
+Adds a "clean important rooms" job to the Cleaning work type, ahead of vanilla filth cleaning and snow or sand clearing. It covers every room type whose stats count cleanliness: kitchens, hospitals, laboratories, bedrooms, barracks, dining rooms, rec rooms and prison cells. Everything else is cleaned as usual once those are done.
+
+Works for anyone who does Cleaning, including modded worker animals such as Housekeeper Assistance Cats.
+
+Safe to add to or remove from an existing save. No Harmony needed.</description>
+	<modDependencies>
+		<li>
+			<packageId>Ludeon.RimWorld</packageId>
+			<displayName>Core</displayName>
+		</li>
+	</modDependencies>
+	<loadAfter>
+		<li>Ludeon.RimWorld</li>
+	</loadAfter>
+</ModMetaData>
